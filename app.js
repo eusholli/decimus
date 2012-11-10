@@ -83,6 +83,21 @@ app.get('/donation/:id', function(req, res, next) {
   });
 });
 
+app.get('/donationemail', function(req, res, next) {
+  // console.log("req: %j", req);
+  console.log("post donation : " + req.body.content);
+  console.log(JSON.stringify(req.body));
+  console.log("Params");
+  console.log(JSON.stringify(req.params));
+  // console.log("post donation : " + util.inspect(req));
+  var donation = new Donation();
+  donation.content = req.body.content;
+  donation.save(function(err) {
+    if(err) return next(err);
+    res.json({ message : 'Success!'});
+  });
+});
+
 app.post('/donation', function(req, res, next) {
   // console.log("req: %j", req);
   console.log("post donation : " + req.body.content);
