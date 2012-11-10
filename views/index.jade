@@ -1,7 +1,8 @@
 div#register(data-role='page')
   div(data-role='header')
-    h1 Register
-    a.ui-btn-right(href='#login', data-icon='plus') Login
+    h1 Welcome
+    a.ui-btn-left(href='#index', data-icon='check') Existing
+    a.ui-btn-right(href='#start', data-icon='plus') Start
 
   div(data-role='content')
     h2 Welcome to North Texas Food Bank
@@ -9,14 +10,14 @@ div#register(data-role='page')
   div.ui-bar(data-role='footer', data-position='fixed')
     a(href='#info-dialog', data-icon='info', data-rel='dialog') About
 
-div#login(data-role='page')
+div#start(data-role='page')
   div(data-role='header')
-    h1 Logging In
+    h1 Beginning...
 
   div(data-role='content')
     h2 Welcome to North Texas Food Bank
     
-    p Logging in. Please wait!
+    p Beginning. Please wait!
 
   div.ui-bar(data-role='footer', data-position='fixed')
     a(href='#info-dialog', data-icon='info', data-rel='dialog') About
@@ -202,18 +203,18 @@ script
     };
     
     
-    $.mobile.changePage($("#login"));
+    $.mobile.changePage($("#start"));
     
   }
   
   $(".incoming-call-answer").live("click", function() {
     self.call.answer();
-    $.mobile.changePage($("#call"));
+    $.mobile.changePage($("#index"));
     self.call.onend = function() {
-      $.mobile.changePage($("#make-call"));
+      $.mobile.changePage($("#index"));
     };
     self.call.onerror = function() {
-      $.mobile.changePage($("#make-call"));
+      $.mobile.changePage($("#index"));
     };
     
     self.call.onaddstream = function(e) {
@@ -225,7 +226,7 @@ script
   
   $(".incoming-call-reject").live("click", function() {
     self.call.end();
-    $.mobile.changePage($("#make-call"));
+    $.mobile.changePage($("#index"));
   });
   
   $(".call-hangup").live("click", function() {
@@ -252,9 +253,9 @@ script
     
     self.call.onbegin = function() {
       self.call.onend = function () {
-        $.mobile.changePage($("#make-call"));
+        $.mobile.changePage($("#index"));
       };
-      $.mobile.changePage($("#call"));
+      // $.mobile.changePage($("#call"));
     };
     
     self.call.onend = function () {
@@ -276,7 +277,7 @@ script
       mstore.selectedid = this.id;
     });
 
-    $("#login").bind('pagebeforeshow', function(e, ui) {
+    $("#start").bind('pagebeforeshow', function(e, ui) {
       login('16509992384');
     });
 
