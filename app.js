@@ -6,7 +6,7 @@ var express = require('express')
   , mongoose = require('mongoose')
   , mongodb = require('mongodb');
 
-var util = require('util');
+// var util = require('util');
 
 var app = module.exports = express.createServer();
 
@@ -86,7 +86,8 @@ app.get('/donation/:id', function(req, res, next) {
 app.post('/donation', function(req, res, next) {
   // console.log("req: %j", req);
   console.log("post donation : " + req.body.content);
-  console.log("post donation : " + util.inspect(req));
+  console.log(JSON.stringify(req.body));
+  // console.log("post donation : " + util.inspect(req));
   var donation = new Donation();
   donation.content = req.body.content;
   donation.save(function(err) {
