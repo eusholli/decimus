@@ -84,14 +84,10 @@ app.get('/donation/:id', function(req, res, next) {
 });
 
 app.get('/donationemail', function(req, res, next) {
-  // console.log("req: %j", req);
-  console.log("post donation : " + req.body.content);
-  console.log(JSON.stringify(req.body));
-  console.log("Params");
-  console.log(JSON.stringify(req.params));
   // console.log("post donation : " + util.inspect(req));
   var donation = new Donation();
-  donation.content = req.body.content;
+  donation.content = req.query["content"];
+  console.log("content=" + donation.content);
   donation.save(function(err) {
     if(err) return next(err);
     res.json({ message : 'Success!'});
