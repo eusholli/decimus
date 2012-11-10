@@ -82,16 +82,9 @@ app.get('/donation/:id', function(req, res, next) {
 });
 
 app.post('/donation', function(req, res, next) {
-  var textEntry;
-  if(req.textToSpeech) {
-    textEntry = req.textToSpeech;
-  } else {
-    textEntry = req.body.content;
-  }
-  console.log("donation text entry: " + textEntry);
-  // console.log("post donation : " + req.body.content);
+  console.log("post donation : " + req.body.content);
   var donation = new Donation();
-  donation.content = textEntry;
+  donation.content = req.body.content;
   donation.save(function(err) {
     if(err) return next(err);
     res.json({ message : 'Success!'});
