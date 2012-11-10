@@ -82,15 +82,16 @@ app.get('/donation/:id', function(req, res, next) {
 });
 
 app.post('/donation', function(req, res, next) {
-  if(req.body) {
-    console.log("post donation req.body.filename: " + req.body.filename);
+  var textEntry;
+  if(req.textToSpeech) {
+    textEntry = req.textToSpeech;
   } else {
-    console.log("no req.body");
+    textEntry = req.body.content;
   }
-  console.log("post donation req.filename: " + req.filename);
+  console.log("donation text entry: " + textEntry);
   // console.log("post donation : " + req.body.content);
   var donation = new Donation();
-  donation.content = req.body.content;
+  donation.content = textEntry;
   donation.save(function(err) {
     if(err) return next(err);
     res.json({ message : 'Success!'});
