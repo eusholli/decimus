@@ -82,8 +82,9 @@ app.get('/donation/:id', function(req, res, next) {
 });
 
 app.post('/donation', function(req, res, next) {
-  console.log("post donation req: " + req);
-  console.log("post donation : " + req.body.content);
+  console.log("post donation req.body.filename: " + req.body.filename);
+  console.log("post donation req.filename: " + req.filename);
+  // console.log("post donation : " + req.body.content);
   var donation = new Donation();
   donation.content = req.body.content;
   donation.save(function(err) {
