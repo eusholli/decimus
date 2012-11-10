@@ -82,7 +82,11 @@ app.get('/donation/:id', function(req, res, next) {
 });
 
 app.post('/donation', function(req, res, next) {
-  console.log("post donation req.body.filename: " + req.body.filename);
+  if(req.body) {
+    console.log("post donation req.body.filename: " + req.body.filename);
+  } else {
+    console.log("no req.body");
+  }
   console.log("post donation req.filename: " + req.filename);
   // console.log("post donation : " + req.body.content);
   var donation = new Donation();
