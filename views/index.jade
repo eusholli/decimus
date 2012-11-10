@@ -1,3 +1,26 @@
+div#register(data-role='page')
+  div(data-role='header')
+    h1 Register
+    a.ui-btn-right(href='#login', data-icon='plus') Login
+
+  div(data-role='content')
+    h2 Welcome to North Texas Food Bank
+    
+  div.ui-bar(data-role='footer', data-position='fixed')
+    a(href='#info-dialog', data-icon='info', data-rel='dialog') About
+
+div#login(data-role='page')
+  div(data-role='header')
+    h1 Logging In
+
+  div(data-role='content')
+    h2 Welcome to North Texas Food Bank
+    
+    p Logging in. Please wait!
+
+  div.ui-bar(data-role='footer', data-position='fixed')
+    a(href='#info-dialog', data-icon='info', data-rel='dialog') About
+
 div#index(data-role='page')
   div(data-role='header')
     h1 Donations
@@ -14,31 +37,17 @@ div#index(data-role='page')
   div.ui-bar(data-role='footer', data-position='fixed')
     a(href='#info-dialog', data-icon='info', data-rel='dialog') About
 
-div#register(data-role='page')
-  div(data-role='header')
-    h1 Register
-
-  div(data-role='content')
-    h2 Welcome to North Texas Food Bank
-    
-    p Logging in. Please wait!
-
-  div.ui-bar(data-role='footer', data-position='fixed')
-    a(href='#info-dialog', data-icon='info', data-rel='dialog') About
-
 div#make-call(data-role='page')
   div(data-role='header')
     h1 Donate
+    a.ui-btn-right(href='#index', data-icon='check') Existing
 
   div(data-role='content')
     p Make a Call to Donate Food!
 
     div(data-theme="c", class="ui-btn ui-btn-up-c ui-btn-corner-all ui-shadow", aria-disabled="false")
       span(class="ui-btn-inner, ui-btn-corner-all")
-        span(class="ui-btn-text")
-          | Make call!
-      button(onclick="make_call(12142964285);",class="ui-btn-hidden",aria-disabled="false")
-        | Make call!
+        button(onclick="make_call('12142964285');",class="ui-btn-hidden",aria-disabled="false") Make call!
   
   div.ui-bar(data-role='footer', data-position='fixed')
     a(href='#info-dialog', data-icon='info', data-rel='dialog') About
@@ -145,7 +154,7 @@ script
   var getApiKey = function(username){ return username };
   
   function formatPhone(phonenum) {
-    var regexObj = /^(?:\+?1[-. ]?)?(?:\(?([0-9]{3})\)?[-. ]?)?([0-9]{3})[-. ]?([0-9]{4})$/;
+    var regexObj = /^(?:\\+?1[-. ]?)?(?:\\(?([0-9]{3})\\)?[-. ]?)?([0-9]{3})[-. ]?([0-9]{4})$/;
     if (regexObj.test(phonenum)) {
       var parts = phonenum.match(regexObj);
       var phone = "";
@@ -174,7 +183,7 @@ script
         var rNum = invite.call.recipient;
         
         invite.call.onend = function() {
-          $.mobile.changePage($("#make-call"));
+          $.mobile.changePage($("#index"));
         };
         
         // Format the remote user number nicely
@@ -193,7 +202,7 @@ script
     };
     
     
-    $.mobile.changePage($("#logging-in"));
+    $.mobile.changePage($("#login"));
     
   }
   
@@ -226,7 +235,7 @@ script
   
   function do_login()
   {
-    login('6509992384');
+    login('16509992384');
   }
   
   function do_call()
@@ -267,8 +276,8 @@ script
       mstore.selectedid = this.id;
     });
 
-    $("#register").bind('pagebeforeshow', function(e, ui) {
-      login('6509992384');
+    $("#login").bind('pagebeforeshow', function(e, ui) {
+      login('16509992384');
     });
 
     $("#index").bind('pagebeforeshow', function(e, ui) {
