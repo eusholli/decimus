@@ -88,6 +88,10 @@ app.get('/donationemail', function(req, res, next) {
   var donation = new Donation();
   donation.content = req.query["content"];
   console.log("content=" + donation.content);
+  if(donation.content) {
+   donation.content.replace("Result: ", '');
+  }
+  console.log("content=" + donation.content);
   donation.save(function(err) {
     if(err) return next(err);
     res.json({ message : 'Success!'});
