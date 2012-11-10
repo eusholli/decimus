@@ -4,11 +4,11 @@ div#index(data-role='page')
     a.ui-btn-right(href='#add', data-icon='plus') Add
 
   div(data-role='content')
-    ul#memolist(data-role='listview', data-inset='true')
-      - for(var index=0; index<memos.length; index++) {
+    ul#donationlist(data-role='listview', data-inset='true')
+      - for(var index=0; index<donations.length; index++) {
         li
-          a(href='#view', id=memos[index]._id)
-            p=memos[index].content
+          a(href='#view', id=donations[index]._id)
+            p=donations[index].content
       - }
 
   div.ui-bar(data-role='footer', data-position='fixed')
@@ -17,13 +17,13 @@ div#index(data-role='page')
 div#add(data-role='page')
   div(data-role='header')
     a(data-rel='back', data-icon='back', data-derection='reverse') Back
-    h1 Memo Add
+    h1 Donation Add
     a(href='#add', data-icon='plus') Add
 
   div(data-role='content')
     div(data-role='filedcontain')
-      label(for='memo-add') Memo
-      textarea#memo-add
+      label(for='donation-add') Donation
+      textarea#donation-add
 
   div.ui-bar(data-role='footer', data-position='fixed')
     a#save-abtn(href='#', data-icon='check') Save
@@ -31,13 +31,13 @@ div#add(data-role='page')
 div#view(data-role='page')
   div(data-role='header')
     a(data-rel='back', data-icon='back', data-derection='reverse') Back
-    h1 Memo View
+    h1 Donation View
     a(href='#add', data-icon='plus') Add
 
   div(data-role='content')
     div(data-role='filedcontain')
-      label(for='memo-view') Memo
-      p#memo-view
+      label(for='donation-view') Donation
+      p#donation-view
 
   div.ui-bar(data-role='footer', data-position='fixed')
     div(data-role='controlgroup', data-type='horizontal')
@@ -47,13 +47,13 @@ div#view(data-role='page')
 div#edit(data-role='page')
   div(data-role='header')
     a(data-rel='back', data-icon='back', data-derection='reverse') Back
-    h1 Memo Edit
+    h1 Donation Edit
     a(href='#add', data-icon='plus') Add
 
   div(data-role='content')
     div(data-role='filedcontain')
-      label(for='memo-edit') Memo
-      textarea#memo-edit
+      label(for='donation-edit') Donation
+      textarea#donation-edit
 
   div.ui-bar(data-role='footer', data-position='fixed')
     a#save-ebtn(href='#', data-icon='check') Save
@@ -83,51 +83,51 @@ script
   var mstore = {};
 
   $(function() {
-    $("#memolist").delegate('a', 'click', function(e) {
+    $("#donationlist").delegate('a', 'click', function(e) {
       mstore.selectedid = this.id;
     });
 
     $("#index").bind('pagebeforeshow', function(e, ui) {
       $.get(
-        'memo/list'
+        'donation/list'
         , function(data) {
-            $("#memolist").empty();
+            $("#donationlist").empty();
             for(var index=0; index < data.length; index++) {
-              $("#memolist").append('<li><a href="#view" id="' + data[index]._id + '"><p>' + data[index].content + '</p></a></li>');
+              $("#donationlist").append('<li><a href="#view" id="' + data[index]._id + '"><p>' + data[index].content + '</p></a></li>');
             }
-            $("#memolist").listview('refresh');
+            $("#donationlist").listview('refresh');
           }
         );
     });
 
     $("#add").bind('pagebeforeshow', function(e, ui) {
-      $("#memo-add").val(' ');
+      $("#donation-add").val(' ');
     });
 
     $("#view").bind('pagebeforeshow', function(e, ui) {
-      $("#memo-view").html(' ');
+      $("#donation-view").html(' ');
       $.get(
-        'memo/' + mstore.selectedid
+        'donation/' + mstore.selectedid
         , function(data) {
-            $("#memo-view").html(data.content);
+            $("#donation-view").html(data.content);
           }
         );
     });
 
     $("#edit").bind('pagebeforeshow', function(e, ui) {
-      $("#memo-edit").val(' ');
+      $("#donation-edit").val(' ');
       $.get(
-        'memo/' + mstore.selectedid
+        'donation/' + mstore.selectedid
         , function(data) {
-            $("#memo-edit").val(data.content);
+            $("#donation-edit").val(data.content);
           }
         );
     });
 
     $("#save-abtn").bind('click', function(e) {
       $.post(
-        'memo'
-        , { content : $("#memo-add").val() }
+        'donation'
+        , { content : $("#donation-add").val() }
         , onSuccess
         , 'json'
       );
@@ -136,8 +136,8 @@ script
     $("#save-ebtn").bind('click', function(e) {
       $.ajax({
         type : 'PUT'
-        , url : 'memo/' + mstore.selectedid
-        , data : { content : $("#memo-edit").val() }
+        , url : 'donation/' + mstore.selectedid
+        , data : { content : $("#donation-edit").val() }
         , success : onSuccess
         , dataType : 'json'
       });
@@ -146,7 +146,7 @@ script
     $("#del-btn").bind('click', function(e) {
       $.ajax({
         type : 'DELETE'
-        , url : 'memo/' + mstore.selectedid
+        , url : 'donation/' + mstore.selectedid
         , success : onSuccess
       });
     });

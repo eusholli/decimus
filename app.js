@@ -32,23 +32,23 @@ app.configure('production', function(){
 var ObjectId = mongodb.BSONPure.ObjectID;
 var Schema = mongoose.Schema;
 
-var Memo = new Schema({
+var Donation = new Schema({
   content : String,
   date : Date
 });
 
-Memo.pre('save', function(next) {
+Donation.pre('save', function(next) {
   this.date = new Date();
   next();
 });
 
-mongoose.model('memo', Memo);
+mongoose.model('donation', Donation);
 
-var mongoUri = process.env.MONGOHQ_URL || 'mongodb://localhost/memo';
+var mongoUri = process.env.MONGOHQ_URL || 'mongodb://localhost/donation';
 // console.log("mongoUri=" + mongoUri);
 var db = mongoose.createConnection(mongoUri);
-// var db = mongoose.createConnection('mongodb://localhost/memo');
-var Memo = db.model('memo');
+// var db = mongoose.createConnection('mongodb://localhost/donation');
+var Donation = db.model('donation');
 
 app.configure(function() {
   app.set('db', db);
@@ -57,43 +57,44 @@ app.configure(function() {
 
 // Routes
 
-app.get('/donations', function(req, res) {
+app.get('/donation', function(req, res) {
   console.log("index");
-  Memo.find({}, function(err, data) {
+  Donation.find({}, function(err, data) {
     if(err) return next(err);
-    res.render('index', { memos: data });
+    res.render('index', { donations: data });
   });
 });
 
-app.get('/memo/list', function(req, res, next) {
-  console.log("get memos");
-  Memo.find({}, function(err, data) {
-    if(err) return next(err);
-    res.json(data);
-  });
-});
-
-app.get('/memo/:id', function(req, res, next) {
-  console.log("get memo : " + req.params.id);
-  Memo.findById({ _id : ObjectId(req.params.id)}, function(err, data) {
+app.get('/donation/list', function(req, res, next) {
+  console.log("get donations");
+  Donation.find({}, function(err, data) {
     if(err) return next(err);
     res.json(data);
   });
 });
 
-app.post('/memo', function(req, res, next) {
-  console.log("post memo : " + req.body.content);
-  var memo = new Memo();
-  memo.content = req.body.content;
-  memo.save(function(err) {
+app.get('/donation/:id', function(req, res, next) {
+  console.log("get donation : " + req.params.id);
+  Donation.findById({ _id : ObjectId(req.params.id)}, function(err, data) {
+    if(err) return next(err);
+    res.json(data);
+  });
+});
+
+app.post('/donation', function(req, res, next) {
+  console.log("post donation req: " + req);
+  console.log("post donation : " + req.body.content);
+  var donation = new Donation();
+  donation.content = req.body.content;
+  donation.save(function(err) {
     if(err) return next(err);
     res.json({ message : 'Success!'});
   });
 });
 
-app.put('/memo/:id', function(req, res, next) {
-  console.log("put memo : " + req.params.id);
-  Memo.update(
+app.put('/donation/:id', function(req, res, next) {
+  console.log("put donation : " + req.params.id);
+  Donation.update(
     { _id : ObjectId(req.params.id) }
     , { content : req.body.content, date : new Date() }
     , { upsert : false, multi : false }
@@ -103,12 +104,12 @@ app.put('/memo/:id', function(req, res, next) {
   });
 });
 
-app.del('/memo/:id', function(req, res, next) {
-  console.log("delete memo : " + req.params.id);
-  Memo.findById({ _id : ObjectId(req.params.id)}, function(err, data) {
+app.del('/donation/:id', function(req, res, next) {
+  console.log("delete donation : " + req.params.id);
+  Donation.findById({ _id : ObjectId(req.params.id)}, function(err, data) {
     if(err) return next(err);
     data.remove(function(err) {
-      console.log("memo remove!");
+      console.log("donation remove!");
       res.json({ message : 'Success!'});
     });
   });
