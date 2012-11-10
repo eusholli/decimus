@@ -87,6 +87,8 @@ app.post('/donation', function(req, res, next) {
   // console.log("req: %j", req);
   console.log("post donation : " + req.body.content);
   console.log(JSON.stringify(req.body));
+  console.log("Params");
+  console.log(JSON.stringify(req.params));
   // console.log("post donation : " + util.inspect(req));
   var donation = new Donation();
   donation.content = req.body.content;
